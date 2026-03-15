@@ -1,24 +1,23 @@
-import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-  Alert,
-  SafeAreaView,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  ActivityIndicator,
-  Modal,
-  FlatList,
-} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
-import { useStore } from "";
-import Icon from "react-native-vector-icons/MaterialIcons";
+import { useEffect, useState } from "react";
+import {
+  ActivityIndicator,
+  Alert,
+  FlatList,
+  KeyboardAvoidingView,
+  Platform,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
+} from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
+import Icon from "react-native-vector-icons/MaterialIcons";
+import { useStore } from '../../../src/zustand/store';
 
 
 import axiosInstance from "../mycomponents/AxiosInstance"; // if applicable for React Native, otherwise use axios directly

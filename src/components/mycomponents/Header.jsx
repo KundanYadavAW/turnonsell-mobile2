@@ -1,9 +1,8 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useStore } from '../../../src/zustand/store';
 
-const mainLogo = require('../../../assets/logo.png');
+const mainLogo = require('../../../assets/images/logo.png');
 
 const Header = ({ toggleSidebar }) => {
   const darkMode = useStore((state) => state.darkMode);

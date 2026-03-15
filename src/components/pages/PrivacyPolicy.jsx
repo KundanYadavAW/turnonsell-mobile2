@@ -1,8 +1,7 @@
-import React from "react";
-import { View, Text, ScrollView, StyleSheet, SafeAreaView, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { useStore } from "";
+import { SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useStore } from '../../../src/zustand/store';
 
 
 const PrivacyPolicy = () => {

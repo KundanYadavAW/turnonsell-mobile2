@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from "react";
-import { 
-  View, 
-  Text, 
-  FlatList, 
-  Image, 
-  StyleSheet, 
-  TouchableOpacity, 
-  ActivityIndicator,
-  Dimensions
-} from "react-native";
 import axios from "axios";
-import { useStore } from "";
-import { useNavigation } from "@react-navigation/native";
+import { useEffect, useState } from "react";
+import {
+  ActivityIndicator,
+  Dimensions,
+  FlatList,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
+} from "react-native";
+// import { useStore } from "";
 import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
-import { useStore } from "";
+import { useStore } from '../../../src/zustand/store';
 
 const { width } = Dimensions.get("window");
 

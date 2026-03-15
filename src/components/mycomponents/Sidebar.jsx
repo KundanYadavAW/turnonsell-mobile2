@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
-import { 
-  View, 
-  Text, 
-  StyleSheet, 
-  TouchableOpacity, 
-  Image, 
-  ScrollView, 
-  useWindowDimensions 
-} from 'react-native';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { useState } from 'react';
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  useWindowDimensions,
+  View
+} from 'react-native';
 import { useStore } from '../../../src/zustand/store';
 
 // We require logo image safely
-const mainLogo = require('../../../assets/logo.png');
+const mainLogo = require('../../../assets/images/logo.png');
 
 const Sidebar = ({ isMobile, onClose }) => {
   const navigation = useNavigation();

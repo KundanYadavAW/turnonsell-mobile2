@@ -1,24 +1,23 @@
-import React, { useEffect, useState } from "react";
-import { 
-  View, 
-  Text, 
-  StyleSheet, 
-  Image, 
-  ScrollView, 
-  ActivityIndicator, 
-  TouchableOpacity,
+import { Ionicons } from "@expo/vector-icons";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import {
+  ActivityIndicator,
   Dimensions,
+  Image,
   Linking,
   Modal,
-  TextInput
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
 } from "react-native";
-import axios from "axios";
-import { useStore } from "";
-import { useRoute, useNavigation } from "@react-navigation/native";
-import { Ionicons } from "@expo/vector-icons";
 import Swiper from "react-native-swiper";
+import { useStore } from '../../../src/zustand/store';
 
-import { useStore } from "";
 
 const { width } = Dimensions.get("window");
 

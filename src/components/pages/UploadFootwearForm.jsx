@@ -1,25 +1,25 @@
-import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-  Image,
-  ActivityIndicator,
-  Alert,
-  KeyboardAvoidingView,
-  Platform
-} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
+import { useEffect, useState } from "react";
+import {
+  ActivityIndicator,
+  Alert,
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
+} from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
-import { useStore } from "";
+// import { useStore } from "";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 
-import { useStore } from "";
+import { useStore } from '../../../src/zustand/store';
 
 const UploadFootwearForm = () => {
   const [collegeId, setCollegeId] = useState(null);

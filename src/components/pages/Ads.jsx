@@ -1,23 +1,22 @@
-import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-  Alert,
-  SafeAreaView,
-  ScrollView,
-  ActivityIndicator,
-  Image,
-  FlatList,
-} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
-import { useStore } from "";
-import Icon from "react-native-vector-icons/MaterialIcons";
 import * as ImagePicker from "expo-image-picker";
+import { useEffect, useState } from "react";
+import {
+  ActivityIndicator,
+  Alert,
+  FlatList,
+  Image,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
+} from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
+import Icon from "react-native-vector-icons/MaterialIcons";
+import { useStore } from '../../../src/zustand/store';
 
 
 

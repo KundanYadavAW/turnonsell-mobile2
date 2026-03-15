@@ -1,7 +1,7 @@
-import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 
-const baseURL = "https://turnonsell.com";
+const baseURL = "https://turnonsell.com/api";
 
 const axiosInstance = axios.create({ baseURL });
 

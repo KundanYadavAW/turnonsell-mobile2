@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
+import { DarkTheme, DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useEffect } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 
-import { useStore } from './src/zustand/store';
-import Login from './src/components/pages/Login';
-import GetData from './src/components/pages/GetData';
-import PrivateRoute from './src/components/mycomponents/PrivateRoute';
 import Layout from './src/components/mycomponents/Layout';
+import GetData from './src/components/pages/GetData';
+import Login from './src/components/pages/Login';
+import { useStore } from './src/zustand/store';
 // Mock elements that we will port later
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import SignUp from './src/components/pages/SignUp';
 
 const Stack = createNativeStackNavigator();
@@ -87,6 +87,8 @@ function NavigationScreens() {
 
 export default function App() {
   return (
-    <NavigationScreens />
+     <SafeAreaProvider>
+       <NavigationScreens />
+     </SafeAreaProvider>
   );
 }

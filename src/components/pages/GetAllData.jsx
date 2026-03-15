@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Alert,
-  SafeAreaView,
-  FlatList,
-  ActivityIndicator,
-  Modal,
-  ScrollView,
-  Linking,
-} from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { useStore } from "";
+import { useEffect, useState } from "react";
+import {
+  ActivityIndicator,
+  Alert,
+  FlatList,
+  Linking,
+  Modal,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
+import { useStore } from '../../../src/zustand/store';
 
 
 import axiosInstance from "../mycomponents/AxiosInstance"; // assuming this works in RN environment

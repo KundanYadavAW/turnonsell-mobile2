@@ -1,23 +1,23 @@
-import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import {
-  View,
-  Text,
+  ActivityIndicator,
+  Dimensions,
   FlatList,
   Image,
+  SafeAreaView,
   StyleSheet,
-  TouchableOpacity,
-  ActivityIndicator,
+  Text,
   TextInput,
-  Dimensions,
-  SafeAreaView
+  TouchableOpacity,
+  View
 } from "react-native";
-import axios from "axios";
-import { useStore } from "";
-import { useNavigation } from "@react-navigation/native";
+// import { useStore } from "";
 import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 import DropDownPicker from "react-native-dropdown-picker";
 
-import { useStore } from "";
+import { useStore } from '../../../src/zustand/store';
 
 const { width } = Dimensions.get("window");
 
@@ -161,14 +161,14 @@ const SearchPost = () => {
           <Text style={[styles.title, isDark ? styles.darkTitle : styles.lightTitle]} numberOfLines={2}>
             {item.book_name}
           </Text>
-          
+
           <View style={styles.infoRow}>
             <Ionicons name="book-outline" size={14} color={isDark ? "#aaa" : "#666"} />
             <Text style={[styles.subtitle, isDark ? styles.darkSubtitle : styles.lightSubtitle]} numberOfLines={1}>
               {item.degree_name} • {item.year}
             </Text>
           </View>
-          
+
           <View style={styles.infoRow}>
             <Ionicons name="location-outline" size={14} color={isDark ? "#aaa" : "#666"} />
             <Text style={[styles.subtitle, isDark ? styles.darkSubtitle : styles.lightSubtitle]} numberOfLines={1}>
@@ -213,7 +213,7 @@ const SearchPost = () => {
         </View>
 
         <View style={[styles.dropdownRow, { zIndex: 3000 }]}>
-          <DropDownPicker
+          {/* <DropDownPicker
             open={collegeOpen}
             value={selectedCollege}
             items={colleges}
@@ -231,12 +231,35 @@ const SearchPost = () => {
             searchPlaceholder="Search..."
             listMode="SCROLLVIEW"
             theme={isDark ? "DARK" : "LIGHT"}
+          /> */}
+
+          <DropDownPicker
+            open={collegeOpen}
+            value={selectedCollege}
+            items={colleges}
+            setOpen={(open) => {
+              setCollegeOpen(open);
+              if (open) { setDegreeOpen(false); setYearOpen(false); }
+            }}
+            setValue={setSelectedCollege}
+            setItems={setColleges}
+            placeholder="College"
+            style={[styles.dropdown, isDark ? styles.darkDropdown : styles.lightDropdown]}
+            textStyle={isDark ? styles.darkText : styles.lightText}
+            dropDownContainerStyle={[styles.dropdownContainer, isDark ? styles.darkDropdownContainer : styles.lightDropdownContainer]}
+            containerStyle={styles.dropdownWrapper}
+            zIndex={3000}
+            zIndexInverse={1000}
+            searchable={true}
+            searchPlaceholder="Search..."
+            listMode="MODAL"
+            theme={isDark ? "DARK" : "LIGHT"}
           />
         </View>
 
         <View style={styles.dropdownRowSides}>
           <View style={[styles.halfDropdownWrapper, { zIndex: 2000 }]}>
-            <DropDownPicker
+            {/* <DropDownPicker
               open={degreeOpen}
               value={selectedDegree}
               items={degrees}
@@ -253,10 +276,31 @@ const SearchPost = () => {
               searchPlaceholder="Search..."
               listMode="SCROLLVIEW"
               theme={isDark ? "DARK" : "LIGHT"}
+            /> */}
+            <DropDownPicker
+              open={degreeOpen}
+              value={selectedDegree}
+              items={degrees}
+              setOpen={(open) => {
+                setDegreeOpen(open);
+                if (open) { setCollegeOpen(false); setYearOpen(false); }
+              }}
+              setValue={setSelectedDegree}
+              setItems={setDegrees}
+              placeholder="Degree"
+              style={[styles.dropdown, isDark ? styles.darkDropdown : styles.lightDropdown]}
+              textStyle={isDark ? styles.darkText : styles.lightText}
+              dropDownContainerStyle={[styles.dropdownContainer, isDark ? styles.darkDropdownContainer : styles.lightDropdownContainer]}
+              zIndex={2000}
+              zIndexInverse={2000}
+              searchable={true}
+              searchPlaceholder="Search..."
+              listMode="MODAL"
+              theme={isDark ? "DARK" : "LIGHT"}
             />
           </View>
           <View style={[styles.halfDropdownWrapper, { zIndex: 1000 }]}>
-            <DropDownPicker
+            {/* <DropDownPicker
               open={yearOpen}
               value={selectedYear}
               items={years}
@@ -270,6 +314,25 @@ const SearchPost = () => {
               zIndex={1000}
               zIndexInverse={3000}
               listMode="SCROLLVIEW"
+              theme={isDark ? "DARK" : "LIGHT"}
+            /> */}
+            <DropDownPicker
+              open={yearOpen}
+              value={selectedYear}
+              items={years}
+              setOpen={(open) => {
+                setYearOpen(open);
+                if (open) { setCollegeOpen(false); setDegreeOpen(false); }
+              }}
+              setValue={setSelectedYear}
+              setItems={setYears}
+              placeholder="Year"
+              style={[styles.dropdown, isDark ? styles.darkDropdown : styles.lightDropdown]}
+              textStyle={isDark ? styles.darkText : styles.lightText}
+              dropDownContainerStyle={[styles.dropdownContainer, isDark ? styles.darkDropdownContainer : styles.lightDropdownContainer]}
+              zIndex={1000}
+              zIndexInverse={3000}
+              listMode="MODAL"
               theme={isDark ? "DARK" : "LIGHT"}
             />
           </View>

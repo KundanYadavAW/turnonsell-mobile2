@@ -1,23 +1,23 @@
-import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import {
-  View,
-  Text,
+  ActivityIndicator,
+  Dimensions,
   FlatList,
   Image,
+  SafeAreaView,
   StyleSheet,
-  TouchableOpacity,
-  ActivityIndicator,
+  Text,
   TextInput,
-  Dimensions,
-  SafeAreaView
+  TouchableOpacity,
+  View
 } from "react-native";
-import axios from "axios";
-import { useStore } from "";
-import { useNavigation } from "@react-navigation/native";
+// import { useStore } from "";
 import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 import DropDownPicker from "react-native-dropdown-picker";
 
-import { useStore } from "";
+import { useStore } from '../../../src/zustand/store';
 
 const { width } = Dimensions.get("window");
 

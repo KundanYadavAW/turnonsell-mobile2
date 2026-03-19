@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity, Alert, Modal, Dimensions, SafeAreaView } from 'react-native';
+import { useEffect, useState } from 'react';
+import { Alert, Image, Modal, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useStore } from '../../../src/zustand/store';
-import axios from 'axios';
+// import axios from 'axios';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import axiosInstance from "../mycomponents/AxiosInstance";
 
 
 
@@ -35,7 +36,7 @@ const ProfileUser = () => {
   const fetchProfile = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`${baseURL}/api/profile/${profileId}`, {
+      const response = await axiosInstance.get(`${baseURL}/api/profile/${profileId}`, {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
       const profileData = response.data;
@@ -66,19 +67,27 @@ const ProfileUser = () => {
           onPress: async () => {
             try {
               setLoading(true);
-              const response = await axios.delete(`${baseURL}/api/delete-post/${type}/${postId}`, {
+              console.log("Deleting:", type, postId);
+              const response = await axiosInstance.delete(`${baseURL}/api/delete-post/${type}/${postId}`, {
                 headers: { Authorization: `Bearer ${accessToken}` },
               });
               
               Alert.alert("Success", response.data.message || "Post deleted successfully");
               
+              // setProfile((prev) => ({
+              //   ...prev,
+              //   userPosts: type === "book" ? prev.userPosts.filter((p) => p.id !== postId) : prev.userPosts || [],
+              //   clothPosts: type === "cloth" ? prev.clothPosts.filter((p) => p.id !== postId) : prev.clothPosts || [],
+              //   stationaryPosts: type === "stationary" ? prev.stationaryPosts.filter((p) => p.id !== postId) : prev.stationaryPosts || [],
+              //   footwearPosts: type === "footwear" ? prev.footwearPosts.filter((p) => p.id !== postId) : prev.footwearPosts || [],
+              // }));
               setProfile((prev) => ({
-                ...prev,
-                userPosts: type === "book" ? prev.userPosts.filter((p) => p.id !== postId) : prev.userPosts || [],
-                clothPosts: type === "cloth" ? prev.clothPosts.filter((p) => p.id !== postId) : prev.clothPosts || [],
-                stationaryPosts: type === "stationary" ? prev.stationaryPosts.filter((p) => p.id !== postId) : prev.stationaryPosts || [],
-                footwearPosts: type === "footwear" ? prev.footwearPosts.filter((p) => p.id !== postId) : prev.footwearPosts || [],
-              }));
+  ...prev,
+  userPosts: type === "book" ? prev.userPosts.filter((p) => String(p.id) !== String(postId)) : prev.userPosts || [],
+  clothPosts: type === "cloth" ? prev.clothPosts.filter((p) => String(p.id) !== String(postId)) : prev.clothPosts || [],
+  stationaryPosts: type === "stationary" ? prev.stationaryPosts.filter((p) => String(p.id) !== String(postId)) : prev.stationaryPosts || [],
+  footwearPosts: type === "footwear" ? prev.footwearPosts.filter((p) => String(p.id) !== String(postId)) : prev.footwearPosts || [],
+}));
             } catch (error) {
               console.error("Error deleting post:", error);
               const errorMsg = error.response ? error.response.data.message : error.message;
@@ -95,9 +104,9 @@ const ProfileUser = () => {
   const handleEdit = (type, id) => {
     switch (type) {
       case "book": navigation.navigate("EditPost", { postId: id }); break;
-      case "cloth": navigation.navigate("EditClothPost", { postId: id }); break;
-      case "stationary": navigation.navigate("EditStationary", { postId: id }); break;
-      case "footwear": navigation.navigate("EditFootwear", { postId: id }); break;
+      case "cloth": navigation.navigate("EditClothPost", { id: id }); break;
+      case "stationary": navigation.navigate("EditStationary", { id: id }); break;
+      case "footwear": navigation.navigate("EditFootwear", { id: id }); break;
     }
   };
 
@@ -118,10 +127,10 @@ const ProfileUser = () => {
 
   const handlePostClick = (type, id) => {
     switch (type) {
-      case "book": navigation.navigate("BookPostDetails", { postId: id }); break;
-      case "cloth": navigation.navigate("ClothPostDetails", { postId: id }); break;
-      case "stationary": navigation.navigate("DetailsStationary", { postId: id }); break;
-      case "footwear": navigation.navigate("FootwearPostDetails", { postId: id }); break;
+      case "book": navigation.navigate("BookPostDetails", { id: id }); break;
+      case "cloth": navigation.navigate("ClothPostDetails", { id: id }); break;
+      case "stationary": navigation.navigate("DetailsStationary", { id: id }); break;
+      case "footwear": navigation.navigate("FootwearPostDetails", { id: id }); break;
     }
   };
 

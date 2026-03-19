@@ -924,7 +924,7 @@ const PrivacyPolicyContent = ({ isDark }) => {
       <Section title="1. Information We Collect" />
       <Text style={[ppStyles.paragraph, theme.text]}>We collect only the information needed to run the platform.</Text>
       <Text style={[ppStyles.subTitle, theme.text]}>Personal Information:</Text>
-      {["Name", "Mobile number", "Email (if provided)", "College name", "Profile image (if uploaded)"].map(i => <Bullet key={i} text={i} />)}
+      {["Name", "Mobile number (if provided)", "Email", "College name", "Profile image (if uploaded)"].map(i => <Bullet key={i} text={i} />)}
       <Text style={[ppStyles.subTitle, theme.text]}>Product Information:</Text>
       {["Item title and description", "Photos uploaded by the user", "Category details (book, clothes, electronics, etc.)", "College location"].map(i => <Bullet key={i} text={i} />)}
       <Text style={[ppStyles.subTitle, theme.text]}>We do not collect:</Text>
@@ -973,19 +973,19 @@ const PrivacyPolicyContent = ({ isDark }) => {
         Once deleted, all user data and listings are permanently removed and cannot be recovered.
       </Text>
 
-      <Divider />
+      {/* <Divider />
       <Section title="8. Age Requirement" />
       <Text style={[ppStyles.paragraph, theme.text]}>
         TurnOnSell is intended for users 18 years and above. We do not knowingly allow minors on this platform.
-      </Text>
+      </Text> */}
 
       <Divider />
-      <Section title="9. Cookies" />
+      <Section title="8. Cookies" />
       {["Maintain login sessions", "Improve user experience"].map(i => <Bullet key={i} text={i} />)}
       <Text style={[ppStyles.paragraph, theme.text]}>Cookies do not collect personal details.</Text>
 
       <Divider />
-      <Section title="10. Policy Changes" />
+      <Section title="9. Policy Changes" />
       <Text style={[ppStyles.paragraph, theme.text]}>
         This Privacy Policy may be updated. All updates will reflect a new "Last Updated" date.
       </Text>
@@ -1707,7 +1707,8 @@ const styles = StyleSheet.create({
 
   // Modal
   modalOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.55)', justifyContent: 'flex-end' },
-  modalSheet: { borderTopLeftRadius: 28, borderTopRightRadius: 28, maxHeight: height * 0.88, overflow: 'hidden' },
+  modalSheet: { borderTopLeftRadius: 28, borderTopRightRadius: 28, height: height * 0.75, overflow: 'hidden' },
+  modalBody: { flexShrink: 1, paddingHorizontal: 20, paddingTop: 16, minHeight: 200 },
   modalSheetLight: { backgroundColor: '#fff' },
   modalSheetDark: { backgroundColor: '#1A1520' },
   modalHeader: { paddingTop: 10, paddingBottom: 16, paddingHorizontal: 20 },

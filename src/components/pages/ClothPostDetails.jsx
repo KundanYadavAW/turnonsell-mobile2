@@ -46,6 +46,7 @@ const ClothPostDetails = () => {
 
       const postResponse = await axios.get(`${baseURL}/cloth/clothpostsbyid/${id}`);
       setPost(postResponse.data);
+      console.log("tesint",postResponse.data)
 
       if (postResponse.data.created_at) {
         const postDate = new Date(postResponse.data.created_at);
@@ -95,7 +96,7 @@ const ClothPostDetails = () => {
     if (post && post.phone_number) {
       const whatsappUrl = `whatsapp://send?phone=${post.phone_number}&text=Hi, I'm interested in your clothing item listing.`;
       Linking.openURL(whatsappUrl).catch(() => {
-         alert("Make sure WhatsApp is installed on your device.");
+        alert("Make sure WhatsApp is installed on your device.");
       });
     }
   };
@@ -120,8 +121,12 @@ const ClothPostDetails = () => {
   const imagesArray = Array.isArray(post.images)
     ? post.images
     : typeof post.images === "string"
-        ? post.images.split(",")
-        : [];
+      ? post.images.split(",")
+      : [];
+
+  const profilePic = post.picture
+    ? (post.picture.startsWith("http") ? post.picture : `${baseURL}/uploads/${post.picture}`)
+    : null;
 
   return (
     <View style={[styles.container, isDark ? styles.darkBg : styles.lightBg]}>
@@ -129,8 +134,8 @@ const ClothPostDetails = () => {
         {/* Images Swiper */}
         {imagesArray.length > 0 ? (
           <View style={styles.imageContainer}>
-            <Swiper 
-              style={styles.wrapper} 
+            <Swiper
+              style={styles.wrapper}
               showsButtons={false}
               loop={false}
               activeDotColor="#7e57c2"
@@ -146,7 +151,7 @@ const ClothPostDetails = () => {
                 </View>
               ))}
             </Swiper>
-            
+
             {/* Overlay Price Tag */}
             <View style={styles.priceOverlay}>
               <Ionicons name="pricetag" size={16} color="#fff" style={{ marginRight: 4 }} />
@@ -175,7 +180,7 @@ const ClothPostDetails = () => {
           </View>
 
           {/* User Profile Banner */}
-          <View style={[styles.profileBanner, isDark ? styles.darkCard : styles.lightCard]}>
+          {/* <View style={[styles.profileBanner, isDark ? styles.darkCard : styles.lightCard]}>
             <View style={[styles.avatarLarge, styles.placeholderAvatar, isDark ? styles.darkPlaceholder : styles.lightPlaceholder]}>
               <Ionicons name="person" size={30} color={isDark ? "#aaa" : "#555"} />
             </View>
@@ -193,12 +198,42 @@ const ClothPostDetails = () => {
                 </Text>
               </View>
             </View>
-          </View>
+          </View> */}
+
+          {/* User Profile Banner */}
+          <TouchableOpacity
+            style={[styles.profileBanner, isDark ? styles.darkCard : styles.lightCard]}
+            onPress={() => navigation.navigate("ProfileUser", { id: post.profile_id })}
+          >
+            {profilePic ? (
+              <Image source={{ uri: profilePic }} style={styles.avatarLarge} />
+            ) : (
+              <View style={[styles.avatarLarge, styles.placeholderAvatar, isDark ? styles.darkPlaceholder : styles.lightPlaceholder]}>
+                <Ionicons name="person" size={30} color={isDark ? "#aaa" : "#555"} />
+              </View>
+            )}
+            <View style={styles.profileInfo}>
+              <View style={styles.nameRow}>
+                <Text style={[styles.profileName, isDark ? styles.darkText : styles.lightText]}>
+                  {post.user_name}
+                </Text>
+                <Ionicons name="checkmark-circle" size={16} color="#2196F3" style={{ marginLeft: 4 }} />
+              </View>
+              <View style={styles.locationRow}>
+                <Ionicons name="location-outline" size={14} color={isDark ? "#aaa" : "#666"} />
+                <Text style={[styles.locationText, isDark ? styles.darkSubText : styles.lightSubText]} numberOfLines={1}>
+                  {/* {collegeName} */}
+                  {post.college}
+                </Text>
+              </View>
+            </View>
+            <Ionicons name="chevron-forward" size={20} color={isDark ? "#aaa" : "#ccc"} />
+          </TouchableOpacity>
 
           {/* Details Grid */}
           <View style={[styles.detailsCard, isDark ? styles.darkCard : styles.lightCard]}>
             <View style={styles.detailsGrid}>
-              
+
               <View style={styles.gridItem}>
                 <View style={styles.gridLabelRow}>
                   <Ionicons name="male-female-outline" size={16} color={isDark ? "#aaa" : "#666"} />
@@ -206,7 +241,7 @@ const ClothPostDetails = () => {
                 </View>
                 <Text style={[styles.gridValue, isDark ? styles.darkText : styles.lightText]}>{post.gender}</Text>
               </View>
-              
+
               <View style={styles.gridItem}>
                 <View style={styles.gridLabelRow}>
                   <Ionicons name="shirt-outline" size={16} color={isDark ? "#aaa" : "#666"} />
@@ -222,7 +257,7 @@ const ClothPostDetails = () => {
                 </View>
                 <Text style={[styles.gridValue, isDark ? styles.darkText : styles.lightText]}>{post.subcategory}</Text>
               </View>
-              
+
               <View style={styles.gridItem}>
                 <View style={styles.gridLabelRow}>
                   <Ionicons name="star-outline" size={16} color={isDark ? "#aaa" : "#666"} />
@@ -230,10 +265,10 @@ const ClothPostDetails = () => {
                 </View>
                 <Text style={[styles.gridValue, isDark ? styles.darkText : styles.lightText]}>
                   {post.rate === 1 ? "Poor" :
-                   post.rate === 2 ? "Fair" :
-                   post.rate === 3 ? "Good" :
-                   post.rate === 4 ? "Very Good" :
-                   post.rate === 5 ? "Excellent" : "N/A"}
+                    post.rate === 2 ? "Fair" :
+                      post.rate === 3 ? "Good" :
+                        post.rate === 4 ? "Very Good" :
+                          post.rate === 5 ? "Excellent" : "N/A"}
                 </Text>
               </View>
 
@@ -266,14 +301,14 @@ const ClothPostDetails = () => {
             </View>
           </View>
         </View>
-        
+
         {/* Bottom padding to scroll past the fixed footer */}
         <View style={{ height: 100 }} />
       </ScrollView>
 
       {/* Fixed Action Footer */}
       <View style={[styles.footer, isDark ? styles.darkFooter : styles.lightFooter]}>
-        <TouchableOpacity 
+        <TouchableOpacity
           style={[styles.actionButton, styles.primaryButton]}
           onPress={() => setShowModal(true)}
         >
@@ -282,7 +317,7 @@ const ClothPostDetails = () => {
         </TouchableOpacity>
 
         {post.phone_number && post.phone_number !== "null" && post.phone_number.trim() !== "" && (
-          <TouchableOpacity 
+          <TouchableOpacity
             style={[styles.actionButton, styles.whatsappButton]}
             onPress={handleWhatsAppContact}
           >
@@ -305,7 +340,7 @@ const ClothPostDetails = () => {
             <Text style={[styles.modalSubtitle, isDark ? styles.darkSubText : styles.lightSubText]}>
               The owner will be notified to contact you.
             </Text>
-            
+
             <TextInput
               style={[styles.input, isDark ? styles.darkInput : styles.lightInput, isDark ? styles.darkText : styles.lightText]}
               placeholder="Phone number"
@@ -314,16 +349,16 @@ const ClothPostDetails = () => {
               value={phoneNumber}
               onChangeText={setPhoneNumber}
             />
-            
+
             <View style={styles.modalButtons}>
-              <TouchableOpacity 
-                style={[styles.modalButton, styles.cancelButton]} 
+              <TouchableOpacity
+                style={[styles.modalButton, styles.cancelButton]}
                 onPress={() => setShowModal(false)}
               >
                 <Text style={styles.cancelButtonText}>Cancel</Text>
               </TouchableOpacity>
-              <TouchableOpacity 
-                style={[styles.modalButton, styles.sendButton]} 
+              <TouchableOpacity
+                style={[styles.modalButton, styles.sendButton]}
                 onPress={handleSendNumber}
               >
                 <Text style={styles.sendButtonText}>Send</Text>

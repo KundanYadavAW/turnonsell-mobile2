@@ -1,23 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import { 
-  View, 
-  Text, 
-  StyleSheet, 
-  TextInput, 
-  TouchableOpacity, 
-  Alert, 
-  SafeAreaView, 
-  KeyboardAvoidingView, 
-  Platform, 
-  ScrollView, 
-  ActivityIndicator,
-  Image
-} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import axios from 'axios';
-import { useStore } from '../../../src/zustand/store';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import * as ImagePicker from 'expo-image-picker';
+import { useEffect, useState } from 'react';
+import {
+  ActivityIndicator,
+  Alert,
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
+} from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import { useStore } from '../../../src/zustand/store';
+import axiosInstance from "../mycomponents/AxiosInstance";
 
 
 
@@ -52,7 +52,7 @@ const EditProfile = () => {
   const fetchUserProfile = async () => {
     setFetching(true);
     try {
-      const response = await axios.get(`${baseURL}/api/my-posts`, {
+      const response = await axiosInstance.get(`${baseURL}/api/my-posts`, {
         headers: { Authorization: `Bearer ${accessToken}` }
       });
       const data = response.data;
@@ -112,7 +112,7 @@ const EditProfile = () => {
     }
 
     try {
-      const response = await axios.put(`${baseURL}/api/updateProfile`, formData, {
+      const response = await axiosInstance.put(`${baseURL}/api/updateProfile`, formData, {
         headers: { 
           Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'multipart/form-data',

@@ -437,7 +437,7 @@ const Login = () => {
 
           {/* Forgot password */}
           <TouchableOpacity style={styles.forgotWrap} onPress={() => {}}>
-            <Text style={styles.forgotText}>Forgot password?</Text>
+            <Text style={styles.forgotText} onPress={()=>navigation.navigate("ResetPassword")}>Forgot password?</Text>
           </TouchableOpacity>
 
           {/* Login button */}

@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity, Alert, Modal, Dimensions, Platform, SafeAreaView } from 'react-native';
+import { useEffect, useState } from 'react';
+import { Alert, Dimensions, Image, Modal, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useStore } from '../../../src/zustand/store';
-import axios from 'axios';
+// import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-
+import axiosInstance from "../mycomponents/AxiosInstance";
 
 
 const { width } = Dimensions.get('window');
@@ -33,7 +32,7 @@ const Profile = () => {
   const fetchProfile = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`${baseURL}/api/my-posts`, {
+      const response = await axiosInstance.get(`${baseURL}/api/my-posts`, {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
       const profileData = response.data;
@@ -52,51 +51,88 @@ const Profile = () => {
     }
   };
 
+  // const handleDelete = (type, postId) => {
+  //   console.log("Deleting1:", type, postId);
+  //   Alert.alert(
+  //     "Confirm Delete",
+  //     "Are you sure you want to delete this post? This action cannot be undone.",
+  //     [
+  //       { text: "Cancel", style: "cancel" },
+  //       {
+  //         text: "Delete",
+  //         style: "destructive",
+  //         onPress: async () => {
+  //           try {
+  //             setLoading(true);
+  //             console.log("Deleting2:", type, postId);
+  //             const response = await axiosInstance.delete(`${baseURL}/api/delete-post/${type}/${postId}`, {
+  //               headers: { Authorization: `Bearer ${accessToken}` },
+  //             });
+
+  //             Alert.alert("Success", response.data.message || "Post deleted successfully");
+
+  //             setProfile((prev) => ({
+  //               ...prev,
+  //               userPosts: type === "book" ? prev.userPosts.filter((p) => p.id !== postId) : prev.userPosts || [],
+  //               clothPosts: type === "cloth" ? prev.clothPosts.filter((p) => p.id !== postId) : prev.clothPosts || [],
+  //               stationaryPosts: type === "stationary" ? prev.stationaryPosts.filter((p) => p.id !== postId) : prev.stationaryPosts || [],
+  //               footwearPosts: type === "footwear" ? prev.footwearPosts.filter((p) => p.id !== postId) : prev.footwearPosts || [],
+  //             }));
+              
+  //           } catch (error) {
+  //             console.error("Error deleting post:", error);
+  //             const errorMsg = error.response ? error.response.data.message : error.message;
+  //             Alert.alert("Error", `Failed to delete post: ${errorMsg}`);
+  //           } finally {
+  //             setLoading(false);
+  //           }
+  //         }
+  //       }
+  //     ]
+  //   );
+  // };
+
+
   const handleDelete = (type, postId) => {
-    Alert.alert(
-      "Confirm Delete",
-      "Are you sure you want to delete this post? This action cannot be undone.",
-      [
-        { text: "Cancel", style: "cancel" },
-        { 
-          text: "Delete", 
-          style: "destructive",
-          onPress: async () => {
-            try {
-              setLoading(true);
-              const response = await axios.delete(`${baseURL}/api/delete-post/${type}/${postId}`, {
-                headers: { Authorization: `Bearer ${accessToken}` },
-              });
-              
-              Alert.alert("Success", response.data.message || "Post deleted successfully");
-              
-              // Remove post locally
-              setProfile((prev) => ({
-                ...prev,
-                userPosts: type === "book" ? prev.userPosts.filter((p) => p.id !== postId) : prev.userPosts || [],
-                clothPosts: type === "cloth" ? prev.clothPosts.filter((p) => p.id !== postId) : prev.clothPosts || [],
-                stationaryPosts: type === "stationary" ? prev.stationaryPosts.filter((p) => p.id !== postId) : prev.stationaryPosts || [],
-                footwearPosts: type === "footwear" ? prev.footwearPosts.filter((p) => p.id !== postId) : prev.footwearPosts || [],
-              }));
-            } catch (error) {
-              console.error("Error deleting post:", error);
-              const errorMsg = error.response ? error.response.data.message : error.message;
-              Alert.alert("Error", `Failed to delete post: ${errorMsg}`);
-            } finally {
-              setLoading(false);
-            }
-          }
+     console.log("Deleting1:", type, postId);
+  Alert.alert(
+    "Confirm Delete",
+    "Are you sure you want to delete this post?",
+    [
+      { text: "Cancel", style: "cancel" },
+      {
+        text: "Delete",
+        style: "destructive",
+        onPress: () => {
+          axiosInstance.delete(`${baseURL}/api/delete-post/${type}/${postId}`, {
+            headers: { Authorization: `Bearer ${accessToken}` },
+          })
+          .then((response) => {
+            Alert.alert("Success", response.data.message || "Post deleted successfully");
+            setProfile((prev) => ({
+              ...prev,
+              userPosts: type === "book" ? prev.userPosts.filter((p) => String(p.id) !== String(postId)) : prev.userPosts || [],
+              clothPosts: type === "cloth" ? prev.clothPosts.filter((p) => String(p.id) !== String(postId)) : prev.clothPosts || [],
+              stationaryPosts: type === "stationary" ? prev.stationaryPosts.filter((p) => String(p.id) !== String(postId)) : prev.stationaryPosts || [],
+              footwearPosts: type === "footwear" ? prev.footwearPosts.filter((p) => String(p.id) !== String(postId)) : prev.footwearPosts || [],
+            }));
+          })
+          .catch((error) => {
+            const errorMsg = error.response ? error.response.data.message : error.message;
+            Alert.alert("Error", `Failed to delete post: ${errorMsg}`);
+          });
         }
-      ]
-    );
-  };
+      }
+    ]
+  );
+};
 
   const handleEdit = (type, id) => {
     switch (type) {
       case "book": navigation.navigate("EditPost", { postId: id }); break;
-      case "cloth": navigation.navigate("EditClothPost", { postId: id }); break;
-      case "stationary": navigation.navigate("EditStationary", { postId: id }); break;
-      case "footwear": navigation.navigate("EditFootwear", { postId: id }); break;
+      case "cloth": navigation.navigate("EditClothPost", { id: id }); break;
+      case "stationary": navigation.navigate("EditStationary", { id: id }); break;
+      case "footwear": navigation.navigate("EditFootwear", { id: id }); break;
     }
   };
 
@@ -144,9 +180,9 @@ const Profile = () => {
               <View style={styles.profileHeader}>
                 <TouchableOpacity onPress={() => setAvatarPopupOpen(true)} style={styles.avatarContainer}>
                   {profile.user.picture ? (
-                    <Image 
-                      source={{ uri: profile.user.picture.startsWith("http") ? profile.user.picture : `${baseURL}/uploads/${profile.user.picture}` }} 
-                      style={styles.avatar} 
+                    <Image
+                      source={{ uri: profile.user.picture.startsWith("http") ? profile.user.picture : `${baseURL}/uploads/${profile.user.picture}` }}
+                      style={styles.avatar}
                     />
                   ) : (
                     <View style={[styles.avatar, styles.placeholderAvatar]}>
@@ -173,7 +209,7 @@ const Profile = () => {
                   <Text style={styles.actionButtonTextOutline}>Settings</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.actionButtonOutlineSecondary} onPress={() => navigation.navigate("EditProfile")}>
-                  <Icon name="edit-note" size={20} color="#6A1B9A" style={{marginRight: 6}} />
+                  <Icon name="edit-note" size={20} color="#6A1B9A" style={{ marginRight: 6 }} />
                   <Text style={styles.actionButtonTextOutlineSecondary}>Edit Profile</Text>
                 </TouchableOpacity>
               </View>
@@ -188,7 +224,7 @@ const Profile = () => {
                   { icon: "category", label: "Other" },
                   { icon: "directions-run", label: "Footwear" }
                 ].map((tab, idx) => (
-                  <TouchableOpacity 
+                  <TouchableOpacity
                     key={idx}
                     style={[styles.tab, activeTab === idx && styles.activeTab]}
                     onPress={() => setActiveTab(idx)}
@@ -216,11 +252,11 @@ const Profile = () => {
                       <View style={styles.priceChip}>
                         <Text style={styles.priceChipText}>{formatPrice(post.price)}</Text>
                       </View>
-                      
+
                       {post.images && post.images.length > 0 ? (
                         <View style={styles.imageGrid}>
                           {post.images.slice(0, 2).map((img, idx) => (
-                            <Image 
+                            <Image
                               key={idx}
                               source={{ uri: `${baseURL}/uploads/${img}` }}
                               style={[styles.postImage, post.images.length === 1 ? { width: '100%' } : { width: '50%' }]}
@@ -272,8 +308,8 @@ const Profile = () => {
         <TouchableOpacity style={styles.modalOverlay} activeOpacity={1} onPress={() => setAvatarPopupOpen(false)}>
           <View style={styles.modalContent}>
             {profile?.user.picture ? (
-              <Image 
-                source={{ uri: profile.user.picture.startsWith("http") ? profile.user.picture : `${baseURL}/uploads/${profile.user.picture}` }} 
+              <Image
+                source={{ uri: profile.user.picture.startsWith("http") ? profile.user.picture : `${baseURL}/uploads/${profile.user.picture}` }}
                 style={styles.fullAvatar}
                 resizeMode="contain"
               />

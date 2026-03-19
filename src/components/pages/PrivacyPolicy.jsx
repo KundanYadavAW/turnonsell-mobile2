@@ -207,18 +207,18 @@ const PrivacyPolicy = () => {
           <View style={[styles.divider, isDark ? styles.darkDivider : styles.lightDivider]} />
 
           {/* Section 8 */}
-          <Text style={[styles.sectionTitle, isDark ? styles.darkText : styles.lightText]}>
+          {/* <Text style={[styles.sectionTitle, isDark ? styles.darkText : styles.lightText]}>
             8. Age Requirement
           </Text>
           <Text style={[styles.paragraph, isDark ? styles.darkText : styles.lightText]}>
             TurnOnSell is intended for users 18 years and above. We do not knowingly allow minors on this platform.
-          </Text>
+          </Text> */}
 
           <View style={[styles.divider, isDark ? styles.darkDivider : styles.lightDivider]} />
 
           {/* Section 9 */}
           <Text style={[styles.sectionTitle, isDark ? styles.darkText : styles.lightText]}>
-            9. Cookies
+            8. Cookies
           </Text>
           <View style={styles.list}>
             <Text style={[styles.listItem, isDark ? styles.darkText : styles.lightText]}>• Maintain login sessions</Text>
@@ -232,7 +232,7 @@ const PrivacyPolicy = () => {
 
           {/* Section 10 */}
           <Text style={[styles.sectionTitle, isDark ? styles.darkText : styles.lightText]}>
-            10. Policy Changes
+            9. Policy Changes
           </Text>
           <Text style={[styles.paragraph, isDark ? styles.darkText : styles.lightText]}>
             This Privacy Policy may be updated. All updates will reflect a new "Last Updated" date.

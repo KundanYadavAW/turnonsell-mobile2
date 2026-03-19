@@ -1,11 +1,9 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Alert, SafeAreaView, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useStore } from '../../../src/zustand/store';
+import { useState } from 'react';
+import { Alert, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-
+import { useStore } from '../../../src/zustand/store';
+import axiosInstance from "../mycomponents/AxiosInstance";
 
 
 const Setting = () => {
@@ -15,56 +13,88 @@ const Setting = () => {
   const accessToken = useStore((state) => state.accessToken);
   const baseURL = useStore((state) => state.baseURL);
   const darkMode = useStore((state) => state.darkMode);
-  const setIsLoggedin = useStore((state) => state.isLoggedin);
+  // const setIsLoggedin = useStore((state) => state.isLoggedin);
+  const logOut = useStore((state) => state.logOut);
 
   const isDark = darkMode === true || darkMode === "true";
 
-  const handleDeleteAccount = () => {
-    Alert.alert(
-      "Confirm Account Deletion",
-      "Are you absolutely sure you want to delete your account?\n\nThis action cannot be undone! All your posts and data will be permanently deleted.",
-      [
-        { text: "Cancel", style: "cancel" },
-        {
-          text: "Yes, Delete Forever",
-          style: "destructive",
-          onPress: async () => {
-            try {
-              setLoading(true);
-              const response = await axios.delete(`${baseURL}/api/deleteaccount`, {
-                headers: { Authorization: `Bearer ${accessToken}` },
-              });
+  // const handleDeleteAccount = () => {
+  //   Alert.alert(
+  //     "Confirm Account Deletion",
+  //     "Are you absolutely sure you want to delete your account?\n\nThis action cannot be undone! All your posts and data will be permanently deleted.",
+  //     [
+  //       { text: "Cancel", style: "cancel" },
+  //       {
+  //         text: "Yes, Delete Forever",
+  //         style: "destructive",
+  //         onPress: async () => {
+  //           try {
+  //             setLoading(true);
+  //             const response = await axiosInstance.delete(`${baseURL}/api/deleteaccount`, {
+  //               headers: { Authorization: `Bearer ${accessToken}` },
+  //             });
 
-              Alert.alert("Success", response.data.message || "Account deleted successfully.");
-              
-              // Clear auth tokens
-              await AsyncStorage.removeItem("token");
-              await AsyncStorage.clear();
-              setIsLoggedin(false);
-              
-              // Navigate to login
-              navigate.reset({
-                index: 0,
-                routes: [{ name: 'Login' }],
-              });
-            } catch (error) {
-              const errMsg = error.response?.data?.message || "Something went wrong!";
-              Alert.alert("Error", errMsg);
-            } finally {
-              setLoading(false);
-            }
+  //             Alert.alert("Success", response.data.message || "Account deleted successfully.");
+
+  //             // Clear auth tokens
+  //             await AsyncStorage.removeItem("token");
+  //             await AsyncStorage.clear();
+  //             setIsLoggedin(false);
+
+  //             // Navigate to login
+  //             navigate.reset({
+  //               index: 0,
+  //               routes: [{ name: 'Login' }],
+  //             });
+  //           } catch (error) {
+  //             const errMsg = error.response?.data?.message || "Something went wrong!";
+  //             Alert.alert("Error", errMsg);
+  //           } finally {
+  //             setLoading(false);
+  //           }
+  //         }
+  //       }
+  //     ]
+  //   );
+  // };
+
+
+  const handleDeleteAccount = () => {
+  Alert.alert(
+    "Confirm Account Deletion",
+    "Are you absolutely sure you want to delete your account?\n\nThis action cannot be undone! All your posts and data will be permanently deleted.",
+    [
+      { text: "Cancel", style: "cancel" },
+      {
+        text: "Yes, Delete Forever",
+        style: "destructive",
+        onPress: async () => {
+          try {
+            setLoading(true);
+            const response = await axiosInstance.delete(`${baseURL}/api/deleteaccount`, {
+              headers: { Authorization: `Bearer ${accessToken}` },
+            });
+            Alert.alert("Success", response.data.message || "Account deleted successfully.");
+            await logOut();
+            navigate.navigate("Login");
+          } catch (error) {
+            const errMsg = error.response?.data?.message || "Something went wrong!";
+            Alert.alert("Error", errMsg);
+          } finally {
+            setLoading(false);
           }
         }
-      ]
-    );
-  };
+      }
+    ]
+  );
+};
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: isDark ? "#121212" : "#f5f7fa" }]}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        
+
         <View style={[styles.card, { backgroundColor: isDark ? "#1e1e2e" : "#fff", borderColor: isDark ? "#333" : "rgba(138,43,226,0.1)" }]}>
-          
+
           <View style={styles.header}>
             <View style={styles.iconCircle}>
               <Icon name="settings" size={40} color="#fff" />
@@ -84,7 +114,7 @@ const Setting = () => {
               <Text style={[styles.sectionTitle, { color: isDark ? "#fff" : "#333" }]}> Security</Text>
             </View>
 
-            <TouchableOpacity 
+            <TouchableOpacity
               style={styles.primaryButton}
               onPress={() => navigate.navigate("ChangePassword")}
             >
@@ -95,6 +125,22 @@ const Setting = () => {
             <Text style={[styles.sectionDesc, { color: isDark ? "#aaa" : "#666" }]}>
               Update your password to keep your account secure
             </Text>
+          </View>
+
+          <View style={[styles.divider, { backgroundColor: isDark ? "#333" : "rgba(138,43,226,0.1)" }]} />
+
+          <View style={styles.sectionContainer}>
+            <View style={styles.sectionHeader}>
+              <Icon name="privacy-tip" size={24} color={isDark ? "#bb86fc" : "#6A1B9A"} />
+              <Text style={[styles.sectionTitle, { color: isDark ? "#fff" : "#333" }]}> Legal</Text>
+            </View>
+            <TouchableOpacity
+              style={styles.primaryButton}
+              onPress={() => navigate.navigate("PrivacyPolicy")}
+            >
+              <Icon name="policy" size={20} color="#fff" style={styles.btnIcon} />
+              <Text style={styles.primaryButtonText}>Privacy Policy</Text>
+            </TouchableOpacity>
           </View>
 
           <View style={[styles.divider, { backgroundColor: isDark ? "#333" : "rgba(138,43,226,0.1)" }]} />
@@ -116,7 +162,7 @@ const Setting = () => {
               </Text>
             </View>
 
-            <TouchableOpacity 
+            <TouchableOpacity
               style={styles.dangerButton}
               onPress={handleDeleteAccount}
               disabled={loading}

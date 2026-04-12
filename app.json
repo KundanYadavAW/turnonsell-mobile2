@@ -2,7 +2,7 @@
   "expo": {
     "name": "turnonsell",
     "slug": "turnonsell",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "turnonsell",
@@ -20,6 +20,7 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
+      "versionCode": 2,
       "package": "com.turnonsell.mobileapp"
     },
     "web": {

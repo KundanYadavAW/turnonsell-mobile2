@@ -112,7 +112,7 @@ const EditProfile = () => {
     }
 
     try {
-      const response = await axiosInstance.put(`${baseURL}/api/updateProfile`, formData, {
+      const response = await axiosInstance.patch(`${baseURL}/api/updateProfile`, formData, {
         headers: { 
           Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'multipart/form-data',

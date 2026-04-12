@@ -208,10 +208,10 @@ const Profile = () => {
                   <Icon name="settings" size={20} color="#9370DB" style={styles.actionIcon} />
                   <Text style={styles.actionButtonTextOutline}>Settings</Text>
                 </TouchableOpacity>
-                {/* <TouchableOpacity style={styles.actionButtonOutlineSecondary} onPress={() => navigation.navigate("EditProfile")}>
+                <TouchableOpacity style={styles.actionButtonOutlineSecondary} onPress={() => navigation.navigate("EditProfile")}>
                   <Icon name="edit-note" size={20} color="#6A1B9A" style={{ marginRight: 6 }} />
                   <Text style={styles.actionButtonTextOutlineSecondary}>Edit Profile</Text>
-                </TouchableOpacity> */}
+                </TouchableOpacity>
               </View>
             </View>
 

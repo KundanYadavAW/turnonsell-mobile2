@@ -691,9 +691,24 @@ const SearchablePicker = ({
   const ListEmpty = useMemo(() => (
     <View style={pickerStyles.noResultsWrap}>
       <Ionicons name="search-outline" size={36} color={isDark ? "#555" : "#ccc"} />
-      <Text style={[pickerStyles.noResultsLabel, { color: isDark ? "#aaa" : "#888" }]}>
+      {/* <Text style={[pickerStyles.noResultsLabel, { color: isDark ? "#aaa" : "#888" }]}>
         No results for "{debouncedSearch}"
+      </Text> */}
+       <Text
+      style={[
+        pickerStyles.noResultsLabel,
+        { 
+          color: isDark ? "#aaa" : "#888",
+          textAlign: "center",
+          marginTop: 10
+        }
+      ]}
+    >
+      College or degree not found?{"\n"}
+      <Text style={{ color: "green" }}>
+        Whatsapp 7304868112 to add
       </Text>
+    </Text>
     </View>
   ), [debouncedSearch, isDark]);
 

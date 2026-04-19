@@ -27,7 +27,7 @@
 //   const [categoryId, setCategoryId] = useState(null);
 //   const [subcategoryId, setSubcategoryId] = useState(null);
 //   const [images, setImages] = useState([]);
-  
+
 //   const [colleges, setColleges] = useState([]);
 //   const [genders, setGenders] = useState([]);
 //   const [categories, setCategories] = useState([]);
@@ -149,7 +149,7 @@
 //     formData.append("size", size);
 //     if (phone_number) formData.append("phoneNumber", phone_number);
 //     formData.append("rate", rating);
-    
+
 //     images.forEach((img) => {
 //       formData.append("images", {
 //         uri: Platform.OS === 'android' ? img.uri : img.uri.replace('file://', ''),
@@ -222,7 +222,7 @@
 //         </View>
 
 //         <View style={[styles.card, isDark ? styles.darkCard : styles.lightCard]}>
-            
+
 //             <Text style={styles.sectionTitle}>College Information</Text>
 
 //             <View style={[styles.inputGroup, { zIndex: 4000 }]}>
@@ -754,8 +754,23 @@ const SearchablePicker = ({
   const ListEmpty = useMemo(() => (
     <View style={pickerStyles.noResultsWrap}>
       <Ionicons name="search-outline" size={36} color={isDark ? "#555" : "#ccc"} />
-      <Text style={[pickerStyles.noResultsLabel, { color: isDark ? "#aaa" : "#888" }]}>
+      {/* <Text style={[pickerStyles.noResultsLabel, { color: isDark ? "#aaa" : "#888" }]}>
         No results for "{debouncedSearch}"
+      </Text> */}
+      <Text
+        style={[
+          pickerStyles.noResultsLabel,
+          {
+            color: isDark ? "#aaa" : "#888",
+            textAlign: "center",
+            marginTop: 10
+          }
+        ]}
+      >
+        College not found?{"\n"}
+        <Text style={{ color: "green" }}>
+          Whatsapp 7304868112 to add
+        </Text>
       </Text>
     </View>
   ), [debouncedSearch, isDark]);
@@ -1183,9 +1198,9 @@ const UploadFootwearForm = () => {
         <Text style={[styles.ratingText, isDark ? styles.darkText : styles.lightText]}>
           {rating === 0 ? "Select rating" :
             rating === 1 ? "Poor" :
-            rating === 2 ? "Fair" :
-            rating === 3 ? "Good" :
-            rating === 4 ? "Very Good" : "Excellent"}
+              rating === 2 ? "Fair" :
+                rating === 3 ? "Good" :
+                  rating === 4 ? "Very Good" : "Excellent"}
         </Text>
       </View>
     );

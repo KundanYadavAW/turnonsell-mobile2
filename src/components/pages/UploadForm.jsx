@@ -25,7 +25,7 @@
 //   const [degreeId, setDegreeId] = useState(null);
 //   const [year, setYear] = useState(null);
 //   const [images, setImages] = useState([]);
-  
+
 //   const [colleges, setColleges] = useState([]);
 //   const [degrees, setDegrees] = useState([]);
 //   const [years, setYears] = useState([]);
@@ -168,7 +168,7 @@
 //     newImages.splice(index, 1);
 //     setImages(newImages);
 //   };
- 
+
 //   const renderStars = () => {
 //     return (
 //       <View style={styles.starsContainer}>
@@ -214,7 +214,7 @@
 //         </View>
 
 //         <View style={[styles.card, isDark ? styles.darkCard : styles.lightCard]}>
-            
+
 //             <Text style={styles.sectionTitle}>Educational Information</Text>
 
 //             <View style={[styles.inputGroup, { zIndex: 3000 }]}>
@@ -712,8 +712,20 @@ const SearchablePicker = ({
   const ListEmpty = useMemo(() => (
     <View style={pickerStyles.noResultsWrap}>
       <Ionicons name="search-outline" size={36} color={isDark ? "#555" : "#ccc"} />
-      <Text style={[pickerStyles.noResultsLabel, { color: isDark ? "#aaa" : "#888" }]}>
-        No results for "{debouncedSearch}"
+      <Text
+        style={[
+          pickerStyles.noResultsLabel,
+          {
+            color: isDark ? "#aaa" : "#888",
+            textAlign: "center",
+            marginTop: 10
+          }
+        ]}
+      >
+        College or degree not found?{"\n"}
+        <Text style={{ color: "green" }}>
+          Whatsapp 7304868112 to add
+        </Text>
       </Text>
     </View>
   ), [debouncedSearch, isDark]);
@@ -1100,9 +1112,9 @@ const UploadForm = () => {
         <Text style={[styles.ratingText, isDark ? styles.darkText : styles.lightText]}>
           {rating === 0 ? "Select rating" :
             rating === 1 ? "Poor" :
-            rating === 2 ? "Fair" :
-            rating === 3 ? "Good" :
-            rating === 4 ? "Very Good" : "Excellent"}
+              rating === 2 ? "Fair" :
+                rating === 3 ? "Good" :
+                  rating === 4 ? "Very Good" : "Excellent"}
         </Text>
       </View>
     );
